@@ -1,24 +1,43 @@
 app = "cute"
 
-[[services]]
-# note: the default WordPress image listens on port 80, rather than the more common 8080:
-internal_port = 80
-protocol = "tcp"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
 
-[services.concurrency]
-hard_limit = 50
-soft_limit = 25
+[build]
+image = "amd64/wordpress"
+
+[experimental]
+allowed_public_ports = []
+auto_rollback = true
+
+[[services]]
+http_checks = []
+internal_port = 80
+processes = ["app"]
+protocol = "tcp"
+script_checks = []
+
+[[services.ports]]
+handlers = ["http"]
+port = 80
 
 [[services.ports]]
 handlers = ["tls", "http"]
 port = 443
 
-[[services.ports]]
-handlers = ["http"]
-port = 80
-force_https = true
-
 [[services.tcp_checks]]
 grace_period = "1s"
-interval = 5000
-timeout = 2000
+interval = "15s"
+restart_limit = 0
+timeout = "2s"
+
+[mounts]
+source = "wordpress"
+destination = "/var/www/html"
+initial_size = '500GB'
+
+[[vm]]
+  memory = '128gb'
+  cpu_kind = 'performance'
+  cpus = 16
