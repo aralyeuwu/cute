@@ -35,7 +35,7 @@ timeout = "2s"
 
 [mounts]
 source = "wordpress"
-destination = "/bitnami/wordpress"
+destination = "/var/www/html"
 initial_size = '500GB'
 
 [[vm]]
