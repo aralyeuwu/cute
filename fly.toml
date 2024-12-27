@@ -6,7 +6,7 @@ kill_timeout = 5
 processes = []
 
 [build]
-image = "wordpress:latest"
+image = "amd64/wordpress"
 
 [experimental]
 allowed_public_ports = []
